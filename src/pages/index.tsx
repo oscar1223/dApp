@@ -1,8 +1,11 @@
 import { Inter } from "next/font/google";
 import Head from "next/head";
 import { CardanoWallet, MeshBadge } from "@meshsdk/react";
+import { BrowserWallet } from '@meshsdk/core';
 
 const inter = Inter({ subsets: ["latin"] });
+
+
 
 export default function Home() {
   return (
@@ -19,7 +22,7 @@ export default function Home() {
           <a href="https://meshjs.dev/" className="text-sky-600">Mesh</a> Next.js
         </h1>
 
-        <div className="mb-20">
+        <div className="m-20">
           <CardanoWallet />
         </div>
 
