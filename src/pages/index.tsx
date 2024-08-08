@@ -2,22 +2,29 @@ import { Inter } from "next/font/google";
 import Head from "next/head";
 import { CardanoWallet, MeshBadge } from "@meshsdk/react";
 import { BrowserWallet } from '@meshsdk/core';
+import NavBar from './components/navbar'
+import Footer from './components/footer'
+import { useEffect } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
 
 
 export default function Home() {
+  
+  useEffect(() => {
+    console.log(BrowserWallet.getInstalledWallets())
+  }, []);
+
   return (
     <div className="bg-gray-900 w-full text-white text-center">
       <Head>
-        <title>Mesh App on Cardano</title>
+        <title>CactusSwap</title>
         <meta name="description" content="A Cardano dApp powered my Mesh" />
       </Head>
-      <main
-        className={`flex min-h-screen flex-col items-center justify-center p-24 ${inter.className} `}
-      >
-
+      <NavBar/>
+      <main className={`flex min-h-screen flex-col items-center justify-center p-24 ${inter.className} `} >
+        
         <h1 className="text-6xl font-thin mb-20">
           <a href="https://meshjs.dev/" className="text-sky-600">Mesh</a> Next.js
         </h1>
@@ -52,9 +59,7 @@ export default function Home() {
           </a>
         </div>
       </main>
-      <footer className="p-8 border-t border-gray-300 flex justify-center">
-        <MeshBadge dark={true} />
-      </footer>
+      <Footer/>
     </div>
   );
 }
