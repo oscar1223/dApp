@@ -5,6 +5,7 @@ import { BrowserWallet } from '@meshsdk/core';
 import NavBar from './components/navbar'
 import Footer from './components/footer'
 import { useEffect } from "react";
+import "@meshsdk/react/styles.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
