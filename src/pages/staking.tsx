@@ -1,11 +1,12 @@
 import { Inter } from "next/font/google";
 import Head from "next/head";
-import NavBar from '../components/navbar';
-import Footer from '../components/footer';
+import NavBar from './components/navbar';
+import Footer from './components/footer';
 import "@meshsdk/react/styles.css";
 
 const inter = Inter({ subsets: ["latin"] });
-export default function Showcase(){
+
+export default function Staking(){
     return(
         <div className="bg-gray-900 w-full text-white text-center">
             <Head>
@@ -16,7 +17,7 @@ export default function Showcase(){
             <main className={`flex min-h-screen flex-col items-center justify-center p-24 ${inter.className} `} >
             
                 <h1 className="text-6xl font-thin mb-20">
-                    <a href="https://meshjs.dev/" className="text-sky-600">NFT Marketplace page</a>
+                    <a href="https://meshjs.dev/" className="text-sky-600">Staking page</a>
                 </h1>
 
             </main>

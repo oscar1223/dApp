@@ -3,10 +3,10 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { CardanoWallet } from "@meshsdk/react";
 
 const navigation = [
-  { name: 'Home', href: '#', current: true },
-  { name: 'Swap', href: '#', current: false },
-  { name: 'Market', href: '#', current: false },
-  { name: 'Staking', href: '#', current: false },
+  { name: 'Home', href: '/', current: true },
+  { name: 'Swap', href: '/swap', current: false },
+  { name: 'Market', href: '/market/showcase', current: false },
+  { name: 'Staking', href: '/staking', current: false },
 ]
 
 function classNames(...classes: string[]) {
@@ -55,7 +55,6 @@ export default function NavBar() {
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <CardanoWallet />
-
           </div>
         </div>
       </div>

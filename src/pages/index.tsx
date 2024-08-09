@@ -2,8 +2,8 @@ import { Inter } from "next/font/google";
 import Head from "next/head";
 import { CardanoWallet, MeshBadge } from "@meshsdk/react";
 import { BrowserWallet } from '@meshsdk/core';
-import NavBar from './components/navbar'
-import Footer from './components/footer'
+import NavBar from './components/navbar';
+import Footer from './components/footer';
 import { useEffect } from "react";
 import "@meshsdk/react/styles.css";
 
