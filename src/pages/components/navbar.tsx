@@ -1,12 +1,14 @@
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { CardanoWallet } from "@meshsdk/react";
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const navigation = [
-  { name: 'Home', href: '/', current: true },
-  { name: 'Swap', href: '/swap', current: false },
-  { name: 'Market', href: '/market/showcase', current: false },
-  { name: 'Staking', href: '/staking', current: false },
+  { name: 'Home', href: '/' },
+  { name: 'Swap', href: '/swap' },
+  { name: 'Market', href: '/market/showcase' },
+  { name: 'Staking', href: '/staking' },
 ]
 
 function classNames(...classes: string[]) {
@@ -14,6 +16,11 @@ function classNames(...classes: string[]) {
 }
 
 export default function NavBar() {
+  /* Funciones componentes  */
+  const router = useRouter()
+  const pathName = router.pathname;
+  
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -37,19 +44,21 @@ export default function NavBar() {
             </div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
-                {navigation.map((item) => (
-                  <a
+                {navigation.map((item) => { 
+                  const isSelected = item.href === pathName;
+                  return (
+                  <Link
                     key={item.name}
                     href={item.href}
-                    aria-current={item.current ? 'page' : undefined}
+                    aria-current={isSelected ? 'page' : undefined}
                     className={classNames(
-                      item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                      isSelected ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                       'rounded-md px-3 py-2 text-sm font-medium',
                     )}
                   >
                     {item.name}
-                  </a>
-                ))}
+                  </Link>
+                )})}
               </div>
             </div>
           </div>
@@ -61,20 +70,24 @@ export default function NavBar() {
 
       <DisclosurePanel className="sm:hidden">
         <div className="space-y-1 px-2 pb-3 pt-2">
-          {navigation.map((item) => (
+          {navigation.map((item) => {
+            const isSelected = item.href === pathName;
+            return(
+              <Link href={item.href}>
             <DisclosureButton
               key={item.name}
-              as="a"
-              href={item.href}
-              aria-current={item.current ? 'page' : undefined}
+              as="span"
+              
+              aria-current={isSelected ? 'page' : undefined}
               className={classNames(
-                item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                isSelected ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                 'block rounded-md px-3 py-2 text-base font-medium',
               )}
             >
               {item.name}
             </DisclosureButton>
-          ))}
+            </Link>
+          )})}
         </div>
       </DisclosurePanel>
     </Disclosure>
