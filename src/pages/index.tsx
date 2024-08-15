@@ -29,7 +29,7 @@ export default function Home() {
 
   return (
     <div className="bg-gray-900 w-full text-white text-center">
-      <Head>
+      <Head >
         <title>TravelCoin</title>
         <meta name="description" content="A Cardano dApp powered my Mesh" />
       </Head>
@@ -50,7 +50,7 @@ export default function Home() {
             <a href="https://nextjs.org/" className="underline">
             Cardano Token
             </a>{" "}
-            to recreate the worldwide traveling.
+            to reinvent the worldwide traveling.
           </p>
         </div>
       </div>
@@ -300,9 +300,9 @@ export default function Home() {
                         <a className="text-gray-500">
                           <svg
                             fill="none"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             className="w-5 h-5"
                             viewBox="0 0 24 24"
                           >
@@ -312,9 +312,9 @@ export default function Home() {
                         <a className="ml-2 text-white">
                           <svg
                             fill="none"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             className="w-5 h-5"
                             viewBox="0 0 24 24"
                           >
@@ -324,9 +324,9 @@ export default function Home() {
                         <a className="ml-2 text-gray-500">
                           <svg
                             fill="none"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             className="w-5 h-5"
                             viewBox="0 0 24 24"
                           >
@@ -357,9 +357,9 @@ export default function Home() {
                         <a className="text-gray-500">
                           <svg
                             fill="none"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             className="w-5 h-5"
                             viewBox="0 0 24 24"
                           >
@@ -369,9 +369,9 @@ export default function Home() {
                         <a className="ml-2 text-gray-500">
                           <svg
                             fill="none"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             className="w-5 h-5"
                             viewBox="0 0 24 24"
                           >
@@ -381,9 +381,9 @@ export default function Home() {
                         <a className="ml-2 text-gray-500">
                           <svg
                             fill="none"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             className="w-5 h-5"
                             viewBox="0 0 24 24"
                           >
@@ -414,9 +414,9 @@ export default function Home() {
                         <a className="text-gray-500">
                           <svg
                             fill="none"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             className="w-5 h-5"
                             viewBox="0 0 24 24"
                           >
@@ -426,9 +426,9 @@ export default function Home() {
                         <a className="ml-2 text-gray-500">
                           <svg
                             fill="none"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             className="w-5 h-5"
                             viewBox="0 0 24 24"
                           >
@@ -438,9 +438,9 @@ export default function Home() {
                         <a className="ml-2 text-gray-500">
                           <svg
                             fill="none"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             className="w-5 h-5"
                             viewBox="0 0 24 24"
                           >
@@ -471,9 +471,9 @@ export default function Home() {
                         <a className="text-gray-500">
                           <svg
                             fill="none"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             className="w-5 h-5"
                             viewBox="0 0 24 24"
                           >
@@ -483,9 +483,9 @@ export default function Home() {
                         <a className="ml-2 text-gray-500">
                           <svg
                             fill="none"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             className="w-5 h-5"
                             viewBox="0 0 24 24"
                           >
@@ -495,9 +495,9 @@ export default function Home() {
                         <a className="ml-2 text-gray-500">
                           <svg
                             fill="none"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             className="w-5 h-5"
                             viewBox="0 0 24 24"
                           >

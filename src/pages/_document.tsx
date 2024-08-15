@@ -5,10 +5,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <link
-          rel="icon"
-          href="https://meshjs.dev/favicon/favicon-32x32.png"
-        />
+      <link rel="icon" href="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" />
       </Head>
       <body>
         <Main />

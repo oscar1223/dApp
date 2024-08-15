@@ -73,20 +73,18 @@ export default function NavBar() {
           {navigation.map((item) => {
             const isSelected = item.href === pathName;
             return(
-              <Link href={item.href}>
-            <DisclosureButton
-              key={item.name}
-              as="span"
-              
-              aria-current={isSelected ? 'page' : undefined}
-              className={classNames(
-                isSelected ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                'block rounded-md px-3 py-2 text-base font-medium',
-              )}
-            >
-              {item.name}
-            </DisclosureButton>
-            </Link>
+              <Link href={item.href} key={item.name}>
+                <DisclosureButton
+                  as="span"
+                  aria-current={isSelected ? 'page' : undefined}
+                  className={classNames(
+                    isSelected ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    'block rounded-md px-3 py-2 text-base font-medium',
+                  )}
+                >
+                  {item.name}
+                </DisclosureButton>
+              </Link>
           )})}
         </div>
       </DisclosurePanel>
