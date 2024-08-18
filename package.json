@@ -16,7 +16,7 @@
     "@heroicons/react": "^2.1.5",
     "@meshsdk/contract": "^1.6.8",
     "@meshsdk/core": "^1.5.18",
-    "@meshsdk/react": "^1.6.2",
+    "@meshsdk/react": "^1.1.12",
     "next": "14.2.3",
     "next-transpile-modules": "^10.0.1",
     "react": "^18",

@@ -8,6 +8,7 @@ import { BlockfrostProvider, MeshTxBuilder, Asset } from "@meshsdk/core";
 import { useWallet } from '@meshsdk/react';
 import { useState } from "react";
 
+
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Swap(){
@@ -21,41 +22,53 @@ export default function Swap(){
     console.log(swapTo);
     console.log(quantityTo);
     
-   // const blockchainProvider = new BlockfrostProvider('preprodbHX4xYpLqS3qeKfrApthyHCMIgH0pvbb');
-   // const { connected, wallet } = useWallet();
+    const blockchainProvider = new BlockfrostProvider('preprodbHX4xYpLqS3qeKfrApthyHCMIgH0pvbb');
+    const { connected, wallet } = useWallet();
 
-   // const meshTxBuilder = new MeshTxBuilder({
-   //     fetcher: blockchainProvider,
-   //    submitter: blockchainProvider,
-   //     });
+    console.log(connected);
+    console.log("wallet: "+wallet);
 
-    //const contract = new MeshSwapContract({
-    //mesh: meshTxBuilder,
-    //fetcher: blockchainProvider,
-    //wallet: wallet,
-    //networkId: 0,
-    //});
+    const meshTxBuilder = new MeshTxBuilder({
+        fetcher: blockchainProvider,
+        submitter: blockchainProvider,
+    });
 
-    //const assetToProvide: Asset = {
-    //    unit: "lovelace",
-    //    quantity: '10000000',
-    //    };
+    const contract = new MeshSwapContract({
+    mesh: meshTxBuilder,
+    fetcher: blockchainProvider,
+    wallet: wallet,
+    networkId: 0,
+    });
+
+    const submitSwap = async () => {
+        const assetToProvide: Asset = {
+            unit: swapFrom,
+            quantity: quantityFrom,
+            };
+            
+        const assetToReceive: Asset = {
+        unit: swapTo,
+        quantity: quantityTo,
+        };
+
+        const tx1 = await contract.initiateSwap([assetToProvide], [assetToReceive]);
+        const signedTx1 = await wallet.signTx(tx1);
+        const txHash1 = await wallet.submitTx(signedTx1);
+
+        const utxo1 = await contract.getUtxoByTxHash(txHash1);
+
+        if (utxo1) {
+            const tx2 = await contract.acceptSwap(utxo1);
+            const signedTx2 = await wallet.signTx(tx2);
+            const txHash2 = await wallet.submitTx(signedTx2);
+            console.log(txHash2)
+        } else {
+            // Manejar el caso en que utxo1 es undefined
+            console.error("UTxO no encontrado. No se puede continuar con la transacción.");
+        }
+
         
-    //const assetToReceive: Asset = {
-    //unit: 'd9312da562da182b02322fd8acb536f37eb9d29fba7c49dc172555274d657368546f6b656e',
-    //quantity: "1",
-    //};
-
-    //const tx1 = await contract.initiateSwap([assetToProvide], [assetToReceive]);
-    //const signedTx1 = await wallet.signTx(tx1);
-    //const txHash1 = await wallet.submitTx(signedTx1);
-
-    //const utxo1 = await contract.getUtxoByTxHash(txHash1);
-
-    //const tx2 = await contract.acceptSwap(utxo1);
-    //const signedTx2 = await wallet.signTx(tx2);
-    //const txHash2 = await wallet.submitTx(signedTx2);
-
+    }
 
     return(
         <div className="bg-gray-900 w-full text-white text-center">
@@ -71,7 +84,7 @@ export default function Swap(){
             <section className="text-black body-font lg:pt-20">
             <div className="container flex flex-col items-center justify-center py-8 mx-auto rounded-lg md:p-1 p-3 ">
                 <section className="text-gray-600 body-font ">
-                <form className="max-w-sm mx-auto">
+                <form action={submitSwap} className="max-w-sm mx-auto">
                     <div className="mb-5">
                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Swap from:</label>
                         <input type="text" onChange={(e) => {setSwapFrom(e.target.value)}} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Token id" required />

@@ -7,7 +7,9 @@ import { BrowserWallet } from '@meshsdk/core';
 import NavBar from './components/navbar';
 import Footer from './components/footer';
 import { useEffect } from "react";
+
 import "@meshsdk/react/styles.css";
+
 import React from 'react';
 import plane_img from '../images/plane.png';
 import moon from '../images/moon.png'
