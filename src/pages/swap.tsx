@@ -1,112 +1,187 @@
-import { Inter } from "next/font/google";
-import Head from "next/head";
-import NavBar from './components/navbar';
-import Footer from './components/footer';
-import "@meshsdk/react/styles.css";
+import React, { useState } from "react";
 import { MeshSwapContract } from "@meshsdk/contract";
-import { BlockfrostProvider, MeshTxBuilder, Asset } from "@meshsdk/core";
-import { useWallet } from '@meshsdk/react';
-import { useState } from "react";
+import { BlockfrostProvider, MeshTxBuilder, Asset, UTxO } from "@meshsdk/core";
+import { useWallet } from "@meshsdk/react";
 
+import NavBar from "./components/navbar";
+import Footer from "./components/footer";
 
-const inter = Inter({ subsets: ["latin"] });
+const SwapForm: React.FC = () => {
+  const { connected, wallet } = useWallet();
 
-export default function Swap(){
-    const [swapFrom, setSwapFrom] = useState('');
-    const [quantityFrom, setQuantityFrom] = useState('');
-    const [swapTo, setSwapTo] = useState('');
-    const [quantityTo, setQuantityTo] = useState('');
+  const [swapFrom, setSwapFrom] = useState<string>("");
+  const [quantityFrom, setQuantityFrom] = useState<string>("");
+  const [swapTo, setSwapTo] = useState<string>("");
+  const [quantityTo, setQuantityTo] = useState<string>("");
+  const [transactionHash, setTransactionHash] = useState<string | null>(null);
 
-    console.log(swapFrom);
-    console.log(quantityFrom);
-    console.log(swapTo);
-    console.log(quantityTo);
-    
-    const blockchainProvider = new BlockfrostProvider('preprodbHX4xYpLqS3qeKfrApthyHCMIgH0pvbb');
-    const { connected, wallet } = useWallet();
+  // Inicializa el contrato
+  const blockchainProvider = new BlockfrostProvider(
+    "preprodIYroQUWGpiZxnwpH0Nzlvuo93j88AkIM"
+  );
+  const meshTxBuilder = new MeshTxBuilder({
+    fetcher: blockchainProvider,
+    submitter: blockchainProvider,
+  });
 
-    console.log(connected);
-    console.log("wallet: "+wallet);
-
-    const meshTxBuilder = new MeshTxBuilder({
-        fetcher: blockchainProvider,
-        submitter: blockchainProvider,
-    });
-
-    const contract = new MeshSwapContract({
+  const contract = new MeshSwapContract({
     mesh: meshTxBuilder,
     fetcher: blockchainProvider,
     wallet: wallet,
-    networkId: 0,
-    });
+    networkId: 1, // Ajusta esto según el networkId que estés usando
+  });
 
-    const submitSwap = async () => {
-        const assetToProvide: Asset = {
-            unit: swapFrom,
-            quantity: quantityFrom,
-            };
-            
-        const assetToReceive: Asset = {
-        unit: swapTo,
-        quantity: quantityTo,
-        };
+  // Función para iniciar el swap
+  const initiateSwap = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-        const tx1 = await contract.initiateSwap([assetToProvide], [assetToReceive]);
-        const signedTx1 = await wallet.signTx(tx1);
-        const txHash1 = await wallet.submitTx(signedTx1);
-
-        const utxo1 = await contract.getUtxoByTxHash(txHash1);
-
-        if (utxo1) {
-            const tx2 = await contract.acceptSwap(utxo1);
-            const signedTx2 = await wallet.signTx(tx2);
-            const txHash2 = await wallet.submitTx(signedTx2);
-            console.log(txHash2)
-        } else {
-            // Manejar el caso en que utxo1 es undefined
-            console.error("UTxO no encontrado. No se puede continuar con la transacción.");
-        }
-
-        
+    if (!connected || !wallet) {
+      console.error("No wallet connected");
+      return;
     }
 
-    return(
-        <div className="bg-gray-900 w-full text-white text-center">
-            <Head>
-                <title>TravelCoin</title>
-                <meta name="description" content="A Cardano dApp powered my Mesh" />
-            </Head>
-            <NavBar/>
-            <main className={`flex min-h-screen flex-col items-center justify-center p-24 ${inter.className} `} >
-            <h1 className="text-6xl font-thin mb-20">
-                <a href="https://meshjs.dev/" className="text-sky-600">Swap</a>
-            </h1>
-            <section className="text-black body-font lg:pt-20">
-            <div className="container flex flex-col items-center justify-center py-8 mx-auto rounded-lg md:p-1 p-3 ">
-                <section className="text-gray-600 body-font ">
-                <form action={submitSwap} className="max-w-sm mx-auto">
-                    <div className="mb-5">
-                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Swap from:</label>
-                        <input type="text" onChange={(e) => {setSwapFrom(e.target.value)}} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Token id" required />
-                    </div>
-                    <div className="mb-5">
-                        <input type="text" onChange={(e) => {setQuantityFrom(e.target.value)}} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Qauntity" required />
-                    </div>
-                    <div className="mb-5">
-                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Swap to:</label>
-                        <input type="text" onChange={(e) => {setSwapTo(e.target.value)}} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Token id" required />
-                    </div>
-                    <div className="mb-5">
-                        <input type="text" onChange={(e) => {setQuantityTo(e.target.value)}} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Qauntity" required />
-                    </div>
-                    
-                    <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Swap</button>
-                </form>
-                </section>
-                </div>
-            </section>
-            </main>
-            <Footer/>
+    const assetToProvide: Asset = {
+      unit: swapFrom,
+      quantity: quantityFrom,
+    };
+
+    const assetToReceive: Asset = {
+      unit: swapTo,
+      quantity: quantityTo,
+    };
+
+    try {
+      const tx = await contract.initiateSwap(
+        [assetToProvide],
+        [assetToReceive]
+      );
+      const signedTx = await wallet.signTx(tx);
+      const txHash = await wallet.submitTx(signedTx);
+      console.log("Swap initiated, TxHash:", txHash);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Error initiating swap:", error.message, error.stack);
+      } else {
+        console.error("An unexpected error occurred:", error);
+      }
+    }
+  };
+
+  // Función para aceptar el swap
+  const acceptSwap = async () => {
+    if (!connected || !wallet || !transactionHash) {
+      console.error("No wallet connected or no transaction hash available");
+      return;
+    }
+
+    try {
+      const utxo: UTxO | undefined = await contract.getUtxoByTxHash(
+        transactionHash
+      );
+
+      if (!utxo) {
+        throw new Error("UTxO not found for the provided transaction hash.");
+      }
+
+      const tx = await contract.acceptSwap(utxo);
+      const signedTx = await wallet.signTx(tx);
+      const txHashAccepted = await wallet.submitTx(signedTx);
+      console.log("Swap accepted, TxHash:", txHashAccepted);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Error accepting swap:", error.message, error.stack);
+      } else {
+        console.error("An unexpected error occurred:", error);
+      }
+    }
+  };
+
+  return (
+    <>
+      <div className="bg-gray-900 w-full text-white text-center">
+        <title>TravelCoin</title>
+        <meta name="description" content="A Cardano dApp powered my Mesh" />
+        <NavBar />
       </div>
-    );
-}
+
+      <div className="bg-gray-900 w-full text-white text-center p-8">
+        <h1 className="text-4xl font-bold mb-8">Swap Form</h1>
+        <form onSubmit={initiateSwap} className="max-w-lg mx-auto">
+          <div className="mb-4">
+            <label className="block text-left text-sm font-medium mb-2">
+              Swap From (Token ID):
+            </label>
+            <input
+              type="text"
+              value={swapFrom}
+              onChange={(e) => setSwapFrom(e.target.value)}
+              className="w-full p-2 rounded bg-gray-800 text-white"
+              placeholder="Enter token ID to swap from"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-left text-sm font-medium mb-2">
+              Quantity From:
+            </label>
+            <input
+              type="number"
+              value={quantityFrom}
+              onChange={(e) => setQuantityFrom(e.target.value)}
+              className="w-full p-2 rounded bg-gray-800 text-white"
+              placeholder="Enter quantity to swap from"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-left text-sm font-medium mb-2">
+              Swap To (Token ID):
+            </label>
+            <input
+              type="text"
+              value={swapTo}
+              onChange={(e) => setSwapTo(e.target.value)}
+              className="w-full p-2 rounded bg-gray-800 text-white"
+              placeholder="Enter token ID to swap to"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-left text-sm font-medium mb-2">
+              Quantity To:
+            </label>
+            <input
+              type="number"
+              value={quantityTo}
+              onChange={(e) => setQuantityTo(e.target.value)}
+              className="w-full p-2 rounded bg-gray-800 text-white"
+              placeholder="Enter quantity to swap to"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full p-3 rounded bg-blue-600 hover:bg-blue-700 text-white font-medium"
+          >
+            Initiate Swap
+          </button>
+        </form>
+
+        {transactionHash && (
+          <div className="mt-8">
+            <h2 className="text-2xl font-semibold mb-4">Accept Swap</h2>
+            <button
+              onClick={acceptSwap}
+              className="w-full p-3 rounded bg-green-600 hover:bg-green-700 text-white font-medium"
+            >
+              Accept Swap
+            </button>
+          </div>
+        )}
+      </div>
+      <Footer />
+    </>
+  );
+};
+
+export default SwapForm;
